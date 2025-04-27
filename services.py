@@ -15,6 +15,7 @@ import docker
 import random
 import subprocess
 import fabric
+import pickle
 import queue
 import json
 import time
@@ -22,7 +23,7 @@ import os
 
 theLastId = 0
 CONFIG = configparser.ConfigParser(interpolation = None)
-CONFIG.read("edaweb.conf")
+CONFIG.read(os.path.join(os.path.dirname(__file__), "edaweb.conf"))
 
 def humanbytes(B):
    'Return the given bytes as a human friendly KB, MB, GB, or TB string'
@@ -280,12 +281,23 @@ def get_docker_containers(host, ssh_key_path):
     ).run('docker ps -a -s --format "table {{.Names}};{{.Status}};{{.Image}}"', hide = True)
     return [line.split(";") for line in result.stdout.split("\n")[1:-1]]
 
-def get_all_docker_containers(ssh_key_path):
+def cache_all_docker_containers(ssh_key_path):
     containers = {}
+    containers["containers"] = {}
     for host, name in CONFIG["docker_hosts"].items():
         print(host)
-        containers[(host, name)] = get_docker_containers(host, ssh_key_path)
-    return containers
+        containers["containers"][(host, name)] = get_docker_containers(host, ssh_key_path)
+
+    containers["cachetime"] = "Docker information last updated at %s" % str(datetime.datetime.now())
+    with open("/tmp/docker-cache.json", "wb") as f:
+        pickle.dump(containers, f)
+
+def get_all_docker_containers():
+    if not os.path.exists("/tmp/docker-cache.json"):
+        return {"containers": {}, "cachetime": "No cached docker information"}
+
+    with open("/tmp/docker-cache.json", "rb") as f:
+        return pickle.load(f)
 
 def timeout(func):
     # cant get this to work with queue.Queue() for some reason?
@@ -343,6 +355,6 @@ if __name__ == "__main__":
     # print(request_recent_commits(since = datetime.datetime.now() - datetime.timedelta(days=30)))
 
     # print(scrape_whispa(CONFIG.get("qnas", "url"), datetime.datetime.fromtimestamp(0.0)))
-    # print(get_all_docker_containers(os.path.join(os.path.dirname(__file__), "edaweb-docker.pem")))
+    print(cache_all_docker_containers(os.path.join(os.path.dirname(__file__), "edaweb-docker.pem")))
 
-    print(get_torrent_stats())
+    # print(get_torrent_stats())

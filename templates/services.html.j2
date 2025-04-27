@@ -4,7 +4,7 @@
     <section id=docker>
         <h2>docker</h2>
         <ul>
-            {% for host, containers in docker.items() %}
+            {% for host, containers in docker["containers"].items() %}
                 <h4>{{ "%s - %s" % (host[0], host[1]) }}</h4>
                 <table>
                     {% for name, status, image in containers %}
@@ -21,6 +21,7 @@
                 </table>
             {% endfor %}
         </ul>
+        <p>{{ docker["cachetime"] }}</p>
     </section>
 
     <section id="torrents">

@@ -84,7 +84,7 @@ def serve_services():
         return flask.render_template(
             "services.html.j2",
             **get_template_items("services", db),
-            docker = services.get_all_docker_containers(CONFIG.get("ssh", "docker_key_path")),
+            docker = services.get_all_docker_containers(),
             trans = services.get_torrent_stats(),
             pihole = services.get_pihole_stats()
         )

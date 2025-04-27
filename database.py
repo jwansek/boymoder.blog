@@ -21,7 +21,7 @@ class Database:
 
     def __enter__(self):
         self.config = configparser.ConfigParser(interpolation = None)
-        self.config.read("edaweb.conf")
+        self.config.read(os.path.join(os.path.dirname(__file__), "edaweb.conf"))
 
         if self.safeLogin:
             self.__connection = pymysql.connect(
@@ -146,7 +146,6 @@ class Database:
             return [(i[0], "https://%s/%s/status/%d" % (self.config.get("nitter", "outsideurl"), i[2], i[1])) for i in cursor.fetchall()]
 
     def get_cached_commits(self, since = None, recurse = True):
-        threading.Thread(target = update_cache).start()
         with self.__connection.cursor() as cursor:
             if since is not None:
                 cursor.execute("SELECT DISTINCT message, url, commitTime, additions, deletions, total FROM commitCache WHERE commitTime > %s ORDER BY commitTime DESC;", (since, ))
@@ -243,17 +242,7 @@ class Database:
             cursor.execute("SELECT * FROM qnas;")
             return sorted(cursor.fetchall(), key = operator.itemgetter(2), reverse = True)
 
-def update_cache():
-    print("Updating cache...")
-    with Database() as db:
-        db.update_commit_cache(services.request_recent_commits(since = db.get_last_commit_time()))
-        print("Finished adding github commits...")
-        db.append_qnas(services.scrape_whispa(db.config.get("qnas", "url"), since = db.get_oldest_qna()))
-        print("Finished parsing Q&As...")
 
-
-if __name__ == "__main__":
-    update_cache()
     
 
 
