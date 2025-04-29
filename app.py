@@ -68,9 +68,10 @@ def index():
             return flask.render_template(
                 "index.html.j2", 
                 **get_template_items("eden's site :3", db),
+                days_till_ffs = datetime.datetime(2025, 11, 8) - datetime.datetime.now(),
                 markdown = parser.parse_text(f.read())[0],
                 featured_thoughts = db.get_featured_thoughts(),
-                commits = db.get_cached_commits()[:10],
+                commits = db.get_cached_commits()[:15],
                 sidebar_img = get_sidebar_img(db)
             )
 
