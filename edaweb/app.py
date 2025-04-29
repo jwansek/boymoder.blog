@@ -17,7 +17,7 @@ import io
 
 app = flask.Flask(__name__)
 CONFIG = configparser.ConfigParser(interpolation = None)
-CONFIG.read("edaweb.conf")
+CONFIG.read(os.path.join(os.path.dirname(__file__), "edaweb.conf"))
 shown_images = set()
 shown_sidebar_images = set()
 
@@ -224,7 +224,7 @@ def serve_random():
     sbi = services.get_random_image(tags)
     req = urllib.request.Request(sbi.imurl)
     mediaContent = urllib.request.urlopen(req).read()
-    with open(os.path.join("static", "images", "random.jpg"), "wb") as f:
+    with open(os.path.join(os.path.dirname(__file__), "static", "images", "random.jpg"), "wb") as f:
         f.write(mediaContent)
 
     with database.Database() as db:
