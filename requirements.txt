@@ -1,7 +1,6 @@
-itsdangerous==2.0.1
 PyMySQL==1.0.2
-transmission_rpc==4.1.0
-Werkzeug==2.3.7
+transmission_rpc==4.1.4
+Werkzeug==2.2.3
 Flask==2.2.2
 PiHole_api
 dataclasses

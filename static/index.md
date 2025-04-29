@@ -1,9 +1,9 @@
-![(you)s](/img/braindamage.png)
-
 site now also avaliable under the domain [boymoder.blog](https://boymoder.blog)!
 
+![yaoi](/img/shun-hashimoto-mio-chibana.gif)
+
 ## haiiiiiii
-my name is eden and im a 23yo (boymoder) computer science/robotics PhD student. i made my own website to encourage others to do so too.
+my name is eden and im a 23yo (boymoder/[fujoshi](https://www.urbandictionary.com/define.php?term=fujoshi)) computer science/robotics PhD student. i made my own website to encourage others to do so too.
 i'll post my thoughts on here sometimes, and use this site to link to other stuff i host [more about me](/thought?id=2).
 
 [click here for a random image of lio fotia](/random?tags=lio_fotia)
@@ -25,6 +25,7 @@ these sites are hosted on my [homelab system](https://wiki.eda.gay)
 
 ## nice websites
 - [wiby.me](http://wiby.me/) - search engine for old style websites with limited javascript (my site used to be on here but it got blacklisted for some reason?)
+- [dysmorph.nekoweb.org](https://dysmorph.nekoweb.org/) - a site that is very based because it looks similar
 - [boymoder.network](https://boymoder.network/) - website for boymoder awareness
 - [4chan.org/lgbt/](https://boards.4channel.org/lgbt/) - but dont blame me if u catch brainworms
 - [https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html](https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html) any website with a URL like this is gonna be good
