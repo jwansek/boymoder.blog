@@ -163,7 +163,7 @@ class Database:
                     urlparse(i[1]).path.split("/")[2], 
                     urlparse(i[1]).path.split("/")[-1]
                 ),
-                "datetime": i[2],
+                "datetime": i[2].timestamp(),
                 "stats": {
                     "additions": i[3],
                     "deletions": i[4],

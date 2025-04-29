@@ -64,14 +64,14 @@ def get_template_items(title, db):
 @app.route("/~")
 def index():
     with database.Database() as db:
-        with open(os.path.join("static", "index.md"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__), "static", "index.md"), "r") as f:
             return flask.render_template(
                 "index.html.j2", 
                 **get_template_items("eden's site :3", db),
                 days_till_ffs = datetime.datetime(2025, 11, 8) - datetime.datetime.now(),
                 markdown = parser.parse_text(f.read())[0],
                 featured_thoughts = db.get_featured_thoughts(),
-                commits = db.get_cached_commits()[:15],
+                commits = services.get_recent_commits(db)[:15],
                 sidebar_img = get_sidebar_img(db)
             )
 
@@ -143,7 +143,7 @@ def get_thoughts():
 
 @app.route("/img/<filename>")
 def serve_image(filename):
-    imdirpath = os.path.join(".", "static", "images")
+    imdirpath = os.path.join(os.path.dirname(__file__), "static", "images")
     if filename in os.listdir(imdirpath):
         try:
             w = int(flask.request.args['w'])
@@ -185,7 +185,11 @@ def serve_iso_form():
 
 @app.route("/zip/<zipfile>")
 def serve_zip(zipfile):
-    return flask.send_from_directory(os.path.join(".", "static", "zips"), zipfile)
+    return flask.send_from_directory(os.path.join(os.path.dirname(__file__), "static", "zips"), zipfile)
+
+@app.route("/pdf/<pdfname>")
+def serve_pdf(pdfname):
+    return flask.send_from_directory(os.path.join(os.path.dirname(__file__), "static", "papers"), pdfname)
 
 @app.route("/nhdlredirect", methods = ["POST"])
 def redirect_nhdl():

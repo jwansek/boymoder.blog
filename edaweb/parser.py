@@ -49,6 +49,14 @@ class EdawebRenderer(mistune.HTMLRenderer):
         return "<h%d id='%s'>%s <a class='header_linker' href='#%s'>[#]</a></h%d>" % (
             level, hash_, text, hash_, level
         )
+    
+    # it would appear that the escape=False option does not work with custom renderers,
+    # so we set it to True and just have these silly function stubs to include them manually
+    def inline_html(self, html):
+        return html
+
+    def block_html(self, html):
+        return html
 
 def get_thought_from_id(db, id_):
     category_name, title, dt, markdown, redirect = db.get_thought(id_)
@@ -64,7 +72,8 @@ def parse_file(path):
 def parse_text(unformatted):
     md = mistune.create_markdown(
         renderer = EdawebRenderer(), 
-        plugins = ["strikethrough", "table", "url", "task_lists", "def_list"]
+        plugins = ["strikethrough", "table", "url", "task_lists", "def_list"],
+        # escape = False
     )
     html = md(unformatted)
     if html == "":

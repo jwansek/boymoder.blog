@@ -344,17 +344,22 @@ def get_torrent_stats():
 def get_pihole_stats():
     return PiHole.GetSummary(CONFIG.get("pihole", "url"), CONFIG.get("pihole", "key"), True)
 
+def get_recent_commits(db, max_per_repo = 3):
+    cache = db.get_cached_commits()
+    num_per_repo = {}
+    out = []
+    for commit in cache:
+        if commit["repo"] not in num_per_repo.keys():
+            num_per_repo[commit["repo"]] = 0
+
+        num_per_repo[commit["repo"]] += 1
+        if num_per_repo[commit["repo"]] <= max_per_repo:
+            out.append(commit)
+
+    return sorted(out, key = lambda a: a["datetime"], reverse = True)
+
 if __name__ == "__main__":
-    # print(get_trans_stats())
+    import database
 
-    #print(scrape_nitter(CONFIG.get("twitter", "diary_account"), 1697430888617840909))
-    # print(scrape_nitter("estrogenizedboy", 1698107440489734640))
-
-    # print(parse_tweet("https://nitter.net/HONMISGENDERER/status/1694231618443981161#m"))
-
-    # print(request_recent_commits(since = datetime.datetime.now() - datetime.timedelta(days=30)))
-
-    # print(scrape_whispa(CONFIG.get("qnas", "url"), datetime.datetime.fromtimestamp(0.0)))
-    print(cache_all_docker_containers(os.path.join(os.path.dirname(__file__), "edaweb-docker.pem")))
-
-    # print(get_torrent_stats())
+    with database.Database() as db:
+        print(json.dumps(get_recent_commits(db), indent=4))
