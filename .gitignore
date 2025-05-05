@@ -2,10 +2,10 @@
 *.pub
 homelab-wiki/wiki.env
 homelab-wiki/images/*
-edaweb.conf
+*edaweb.conf
 markdowns/
-static/images/random.jpg
-static/zips/*.zip
+*random.jpg
+*.zip
 .nfs*
 static/images/Thumbs.db
 nitter/nitter.conf

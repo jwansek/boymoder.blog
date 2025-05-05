@@ -8,7 +8,7 @@ services:
         volumes:
             - /tmp/:/media/ISOs/
             - ./edaweb/static/:/app/edaweb/static/
-            - ./edaweb.conf:/app/edaweb/edaweb.conf
+            - ./edaweb.conf:/app/edaweb.conf
             - ./edaweb-docker.pem:/keys/docker-key.pem
         ports:
             - "6969:6969"

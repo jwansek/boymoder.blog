@@ -247,7 +247,7 @@ def parse_tweet(tweet_url):
 
     return dt, replying_to, text, images
 
-def scrape_whispa(whispa_url):
+def scrape_whispa(whispa_url, since = None):
     tree = html.fromstring(requests.get(whispa_url).content.decode())
     qnas = []
     # we're not doing proper HTML scraping here really... since the site uses client side rendering
