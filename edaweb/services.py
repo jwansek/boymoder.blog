@@ -247,7 +247,7 @@ def parse_tweet(tweet_url):
 
     return dt, replying_to, text, images
 
-def scrape_whispa(whispa_url, since):
+def scrape_whispa(whispa_url):
     tree = html.fromstring(requests.get(whispa_url).content.decode())
     qnas = []
     # we're not doing proper HTML scraping here really... since the site uses client side rendering
@@ -257,6 +257,9 @@ def scrape_whispa(whispa_url, since):
         if "receivedFeedback" in js:
             # my god this is horrible...
             for j in json.loads(json.loads(js[19:-1])[1][2:])[0][3]["loadedUser"]["receivedFeedback"]:
+                if j["childFeedback"] == []:
+                    continue
+
                 dt = datetime.datetime.fromisoformat(j["childFeedback"][0]["createdAt"][:-1])
             
                 qnas.append({
@@ -359,7 +362,8 @@ def get_recent_commits(db, max_per_repo = 3):
     return sorted(out, key = lambda a: a["datetime"], reverse = True)
 
 if __name__ == "__main__":
-    import database
+    print(scrape_whispa(CONFIG.get("qnas", "url")))
+    # import database
 
-    with database.Database() as db:
-        print(json.dumps(get_recent_commits(db), indent=4))
+    # with database.Database() as db:
+    #     print(json.dumps(get_recent_commits(db), indent=4))
