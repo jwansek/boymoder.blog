@@ -1,0 +1,11 @@
+FROM reg.reaweb.uk/edaweb
+MAINTAINER Eden Attenborough "eden.attenborough@outlook.com"
+ENV TZ=Europe/London
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update -y
+RUN apt-get install -y tmux cron
+
+RUN echo "*/30 * * * * root python3 /app/edaweb/cache.py > /proc/1/fd/1 2>/proc/1/fd/2" > /etc/crontab
+
+ENTRYPOINT ["bash"]
+CMD ["cron_entrypoint.sh"]
