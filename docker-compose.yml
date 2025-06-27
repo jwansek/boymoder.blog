@@ -1,4 +1,3 @@
-version: '3'
 services:
     edaweb:
         build:
@@ -9,9 +8,27 @@ services:
             - /tmp/:/media/ISOs/
             - ./edaweb/static/:/app/edaweb/static/
             - ./edaweb.conf:/app/edaweb.conf
-            - ./edaweb-docker.pem:/keys/docker-key.pem
+            - edaweb-tmp:/tmp/
         ports:
             - "6969:6969"
+        networks:
+            - db-network
+            - edaweb-net
+        external_links:
+            - mariadb:mysql
+        restart: unless-stopped
+
+    edaweb_cron:
+        build:
+            context: .
+            dockerfile: Dockerfile_cron
+        image: reg.reaweb.uk/edaweb_cron
+        volumes:
+            - /tmp/:/media/ISOs/
+            - ./edaweb/static/:/app/edaweb/static/
+            - ./edaweb.conf:/app/edaweb.conf
+            - ./edaweb-docker.pem:/keys/docker-key.pem
+            - edaweb-tmp:/tmp/
         networks:
             - db-network
             - edaweb-net
@@ -37,6 +54,9 @@ services:
         external_links:
             - mariadb:mysql
         restart: unless-stopped
+
+volumes:
+    edaweb-tmp:
 
 networks:
     edaweb-net:
