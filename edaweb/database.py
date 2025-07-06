@@ -44,7 +44,7 @@ class Database:
 
     def get_header_links(self):
         with self.__connection.cursor() as cursor:
-            cursor.execute("SELECT name, link FROM headerLinks ORDER BY name;")
+            cursor.execute("SELECT name, link FROM headerLinks WHERE display = true ORDER BY name;")
             return cursor.fetchall()
 
     def get_image(self, imageName):
@@ -64,7 +64,7 @@ class Database:
 
     def get_header_articles(self):
         with self.__connection.cursor() as cursor:
-            cursor.execute("SELECT articleName, link FROM headerArticles;")
+            cursor.execute("SELECT articleName, link FROM headerArticles WHERE display = true;")
             return cursor.fetchall()
 
     def get_all_categories(self):
