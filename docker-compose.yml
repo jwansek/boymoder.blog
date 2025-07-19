@@ -11,11 +11,14 @@ services:
             - edaweb-tmp:/tmp/
         ports:
             - "6969:6969"
-        networks:
-            - db-network
-            - edaweb-net
         external_links:
             - mariadb:mysql
+            - transmission_1:transmission
+        mac_address: 44:c8:09:a7:d0:93 
+        networks:
+            db-network:
+            rr-net:
+                ipv4_address: "192.168.23.13"
         restart: unless-stopped
 
     edaweb_cron:
@@ -31,7 +34,6 @@ services:
             - edaweb-tmp:/tmp/
         networks:
             - db-network
-            - edaweb-net
         external_links:
             - mariadb:mysql
         restart: unless-stopped
@@ -50,7 +52,6 @@ services:
             - "6970:80"
         networks:
             - db-network
-            - edaweb-net
         external_links:
             - mariadb:mysql
         restart: unless-stopped
@@ -59,11 +60,11 @@ volumes:
     edaweb-tmp:
 
 networks:
-    edaweb-net:
-        external:
-            name: edaweb-net
-
     db-network:
-        external:
-            name: mariadb
+        external: true
+        name: mariadb
+
+    rr-net:
+        external: true
+        name: rr-net
 
