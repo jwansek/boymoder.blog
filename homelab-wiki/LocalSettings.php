@@ -159,7 +159,6 @@ wfLoadExtension( 'ParserFunctions' );
 wfLoadExtension( 'PdfHandler' );
 wfLoadExtension( 'Poem' );
 wfLoadExtension( 'PortableInfobox' );
-wfLoadExtension( 'Renameuser' );
 wfLoadExtension( 'ReplaceText' );
 wfLoadExtension( 'Scribunto' );
 wfLoadExtension( 'SecureLinkFixer' );
@@ -174,7 +173,11 @@ wfLoadExtension( 'WikiEditor' );
 
 # End of automatically generated settings.
 # Add more configuration options below.
-$wgShowDebug = false;
-$wgDevelopmentWarnings = false;
-$wgShowExceptionDetails = false;
-$wgDebugToolbar = false;
+# $wgShowDebug = false;
+# $wgDevelopmentWarnings = false;
+# $wgShowExceptionDetails = false;
+# $wgDebugToolbar = false;
+
+$wgShowExceptionDetails = true;
+$wgShowDBErrorBacktrace = true;
+$wgShowSQLErrors = true;

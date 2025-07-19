@@ -1,4 +1,4 @@
-FROM mediawiki:1.39.3
+FROM mediawiki:1.43.3
 
 ENV MW_HOME=/var/www/html
 
