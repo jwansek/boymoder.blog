@@ -26,6 +26,7 @@ these sites are hosted on my [homelab system](https://wiki.eda.gay)
 ## nice websites
 - [wiby.me](http://wiby.me/) - search engine for old style websites with limited javascript (my site used to be on here but it got blacklisted for some reason?)
 - [dysmorph.nekoweb.org](https://dysmorph.nekoweb.org/) - a site that is very based because it looks similar
+- [transsexual.org](https://web.archive.org/web/20010802032136/http://transsexual.org/Toon.html) - awesome and relatable transsexual comics from a website that's slightly older than me
 - [boymoder.network](https://boymoder.network/) - website for boymoder awareness
 - [4chan.org/lgbt/](https://boards.4channel.org/lgbt/) - but dont blame me if u catch brainworms
 - [https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html](https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html) any website with a URL like this is gonna be good
