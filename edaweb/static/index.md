@@ -27,6 +27,7 @@ these sites are hosted on my [homelab system](https://wiki.eda.gay)
 - [wiby.me](http://wiby.me/) - search engine for old style websites with limited javascript (my site used to be on here but it got blacklisted for some reason?)
 - [dysmorph.nekoweb.org](https://dysmorph.nekoweb.org/) - a site that is very based because it looks similar
 - [transsexual.org](https://web.archive.org/web/20010802032136/http://transsexual.org/Toon.html) - awesome and relatable transsexual comics from a website that's slightly older than me
+- [norfolkchurches.co.uk](http://www.norfolkchurches.co.uk/norwichintro.htm) - site about all the churches in norwich (and norfolk!), the city that has far too many medieval churches than it knows what to do with. this site is preciesly what the internet should be, the muted ramblings of someone with an expert knowledge on his preferred niche interest. without any javascript. nice if, like me, you have a middling interest in theology
 - [boymoder.network](https://boymoder.network/) - website for boymoder awareness
 - [4chan.org/lgbt/](https://boards.4channel.org/lgbt/) - but dont blame me if u catch brainworms
 - [https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html](https://www.math.uni-bielefeld.de/~sillke/Twister/fun/elevator-fun90.html) any website with a URL like this is gonna be good

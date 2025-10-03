@@ -339,7 +339,7 @@ def get_torrent_stats():
         "Uploaded:": humanbytes(s["cumulative-stats"]["uploadedBytes"]),
         "Active time:": str(datetime.timedelta(seconds = s["cumulative-stats"]["secondsActive"])),
         "Files added:": s["cumulative-stats"]["filesAdded"],
-        "Current upload speed": humanbytes(s["uploadSpeed"]) + "s/S",
+        "Current upload speed:": humanbytes(s["uploadSpeed"]) + "s/S",
         "Current download speed:": humanbytes(s["downloadSpeed"]) + "s/S"
     }
 
