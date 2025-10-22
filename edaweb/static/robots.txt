@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 User-agent: Googlebot-Image
-Disallow: * 
+Disallow: *
+User-agent: *
+Disallow: /random*
+ 
