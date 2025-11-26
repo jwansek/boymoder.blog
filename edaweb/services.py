@@ -22,8 +22,11 @@ import time
 import os
 
 theLastId = 0
+config_path = os.path.join(os.path.dirname(__file__), "..", "edaweb.conf")
+if not os.path.exists(config_path):
+    raise FileNotFoundError("Could not find edaweb.conf config file")
 CONFIG = configparser.ConfigParser(interpolation = None)
-CONFIG.read(os.path.join(os.path.dirname(__file__), "edaweb.conf"))
+CONFIG.read(config_path)
 
 def humanbytes(B):
    'Return the given bytes as a human friendly KB, MB, GB, or TB string'
@@ -248,7 +251,18 @@ def parse_tweet(tweet_url):
     return dt, replying_to, text, images
 
 def scrape_whispa(whispa_url, since = None):
-    tree = html.fromstring(requests.get(whispa_url).content.decode())
+    # add a bit of wiggle room in case i don't answer the questions in order (i often do this)
+    if since is None:
+        stop_at = datetime.datetime(year = 2001, month = 8, day = 12)
+    else:
+        stop_at = since - datetime.timedelta(days = 14)
+        print("The newest Q&A timestamp in the database was %s, we will stop looking at %s." % (since.astimezone().isoformat(), stop_at.astimezone().isoformat()))
+
+    html_ = requests.get(whispa_url).content.decode()
+    # with open("temp.html", "w") as f:
+    #     f.write(html_)
+
+    tree = html.fromstring(html_)
     qnas = []
     # we're not doing proper HTML scraping here really... since the site uses client side rendering
     # we rather parse the JS scripts to get the JSON payload of useful information... sadly this looks horrible
@@ -256,21 +270,33 @@ def scrape_whispa(whispa_url, since = None):
         js = str(script.text)
         if "receivedFeedback" in js:
             # my god this is horrible...
-            for j in json.loads(json.loads(js[19:-1])[1][2:])[0][3]["loadedUser"]["receivedFeedback"]:
-                if j["childFeedback"] == []:
+            parsed_json = json.loads(json.loads(js[19:-1])[1][2:])[0][3]["loadedUser"]["receivedFeedback"]
+            # print(json.dumps(parsed_json, indent = 4))
+            # with open("whispas_%i.json" % i, "w") as f:
+            #     json.dump(parsed_json, f, indent = 4)
+            for j in parsed_json:
+                if j["_count"]["childFeedback"] < 0:
                     continue
 
-                dt = datetime.datetime.fromisoformat(j["childFeedback"][0]["createdAt"][:-1])
-            
-                qnas.append({
-                    # "id": int(str(maths.modf(maths.log(int(j["id"], 16)))[0])[2:]),
+                answer_url = "https://apiv4.whispa.sh/feedbacks/%s/children/public" % j["id"]
+                req = requests.get(answer_url)
+                firstanswer = req.json()["data"][0]
+                dt = datetime.datetime.fromisoformat(firstanswer["createdAt"][:-1])
+
+                qna = {
+                    # "id": int(j["id"], base = 16),
                     "id": int(dt.timestamp()),
-                    "link": None,
+                    "link": answer_url,
                     "datetime": dt,
                     "question": j["content"],
-                    "answer": j["childFeedback"][0]["content"],
+                    "answer": firstanswer["content"],
                     "host": "whispa.sh"
-                })
+                }
+                print(qna)     
+                qnas.append(qna)
+                if dt <= stop_at:
+                    print("Met the threshold for oldest Q&A, so stopped looking.")
+                    break
     return qnas
 
 def get_docker_containers(host, ssh_key_path):

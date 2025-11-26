@@ -20,8 +20,11 @@ class Database:
     passwd:str = None
 
     def __enter__(self):
+        config_path = os.path.join(os.path.dirname(__file__), "..", "edaweb.conf")
+        if not os.path.exists(config_path):
+            raise FileNotFoundError("Could not find edaweb.conf config file")
         self.config = configparser.ConfigParser(interpolation = None)
-        self.config.read(os.path.join(os.path.dirname(__file__), "edaweb.conf"))
+        self.config.read(config_path)
 
         if self.safeLogin:
             self.__connection = pymysql.connect(
